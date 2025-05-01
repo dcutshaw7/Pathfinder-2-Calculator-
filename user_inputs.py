@@ -1,4 +1,6 @@
-from character import Character
+import character
+from monsters import *
+
 
 def get_character_level():
     while True:
@@ -74,20 +76,99 @@ def get_attack_bonus_choice():
 def get_direct_attack_bonus():
     while True:
         try:
-            bonus = int(input("\nEnter your bonus: +"))
+            bonus = int(input("\nEnter your bonus:+ "))
             return bonus
         except ValueError:
             print("Please enter a valid number.")
 
 def get_attack_bonus(): 
+    level = get_character_level()
     choice = get_attack_bonus_choice()
     if choice == "calculate":
-        level = get_character_level()
         ability_mod = get_character_ability_mod()
         proficiency = get_proficiency_input()
         item_bonus = get_item_bonus()
         
         character = Character(level, ability_mod, proficiency, item_bonus)
-        return character.attack_bonus(ability_mod,proficiency,item_bonus)
+        return character.attack_bonus(ability_mod,proficiency,item_bonus), level 
     else: 
-        return get_direct_attack_bonus()
+        return get_direct_attack_bonus(), level 
+    
+def get_monster_type(level):
+    print("What type of monster(s) would you like to test against?")
+    print("1. A tanky/brutish monster")
+
+    while True:
+        try: 
+            choice = int(input("Enter your choice: "))
+            if choice == 1: 
+                monster = create_tank_template()
+                monster.scale_to_level_tank(level)
+                print(f"A level {level} tank monster appears!")
+                return monster
+            
+        except ValueError:
+            print("Please choose valid monster type!")
+
+def get_maneuver_type():
+    print("\nWhat type of maneuver are you attempting?")
+    print("1. Strike/Spell Attack (rolls against AC)")
+    print("2. Trip (rolls against Reflex DC)")
+    print("3. Demoralize (rolls against Will DC")
+    print("4. Feint (rolls against Perception DC)")
+    print("5 Athletic maneuver(rolls against Fortitude DC)")
+    
+    while True:
+        try:
+            choice = int(input("Enter your choice(1-5)"))
+            if choice == 1:
+                return "Strike/Spell Attack", "AC", True
+            elif choice == 2:
+                return "Athletics", "Reflex", False
+            elif choice == 3:
+                return "Intimidate", "Will", False
+            elif choice == 4:
+                return "Deception", "Perception DC", False
+            elif choice == 5: 
+                return "Athletics", "Fortitude DC", False 
+            else: 
+                print("Please choose a valid maneuver")
+        except ValueError:
+            print("Please enter a valid number.")
+
+
+def get_number_of_strikes():
+    while True:
+        try:
+            num_strikes = int(input("\nHow many strikes will you make? (1-3): "))
+            if 1 <= num_strikes <= 3:
+                return num_strikes
+            else:
+                print("Please enter a number between 1 and 3.")
+        except ValueError:
+            print("Please enter a valid number.")
+
+def get_multiple_attack_penalty(): 
+    print("\nChoose your Multiple Attack Penalty progression:")
+    print("1. Standard (-5/-10)")
+    print("2. Agile Weapon (-4/-8)")
+    print("3. Reduced MAP (-3/-6)")
+    print("4. No MAP")
+    
+    
+    while True:
+        try:
+            choice = int(input("What is your multiple attack penalty(1-3) ?"))
+            if choice == 1: 
+                return -5
+            elif choice == 2:
+                return -4
+            elif choice == 3:
+                return -3
+            elif choice == 4:
+                return 0
+            else:
+                print("Please choose valid number.")
+        except ValueError:
+            print("Please enter a valid number.")
+
