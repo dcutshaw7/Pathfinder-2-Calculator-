@@ -5,7 +5,7 @@ from monsters import *
 def get_character_level():
     while True:
         try:
-            level = int(input("Enter character level(1-20): "))
+            level = int(input("\nEnter character level(1-20): "))
             if 1 <= level <= 20:
                 return level
             else:
@@ -95,7 +95,7 @@ def get_attack_bonus():
         return get_direct_attack_bonus(), level 
     
 def get_monster_type(level):
-    print("What type of monster(s) would you like to test against?")
+    print("\nWhat type of monster(s) would you like to test against?")
     print("1. A tanky/brutish monster")
 
     while True:
@@ -104,8 +104,9 @@ def get_monster_type(level):
             if choice == 1: 
                 monster = create_tank_template()
                 monster.scale_to_level_tank(level)
-                print(f"A level {level} tank monster appears!")
-                return monster
+                threat = get_threat_level()
+                print(f"\nA level {level} tank monster appears!")
+                return monster, threat
             
         except ValueError:
             print("Please choose valid monster type!")
@@ -128,9 +129,9 @@ def get_maneuver_type():
             elif choice == 3:
                 return "Intimidate", "Will", False
             elif choice == 4:
-                return "Deception", "Perception DC", False
+                return "Deception", "Perception", False
             elif choice == 5: 
-                return "Athletics", "Fortitude DC", False 
+                return "Athletics", "Fortitude", False 
             else: 
                 print("Please choose a valid maneuver")
         except ValueError:
@@ -160,11 +161,11 @@ def get_multiple_attack_penalty():
         try:
             choice = int(input("What is your multiple attack penalty(1-3) ?"))
             if choice == 1: 
-                return -5
+                return 5
             elif choice == 2:
-                return -4
+                return 4
             elif choice == 3:
-                return -3
+                return 3
             elif choice == 4:
                 return 0
             else:
@@ -172,3 +173,62 @@ def get_multiple_attack_penalty():
         except ValueError:
             print("Please enter a valid number.")
 
+def get_threat_level():
+    print("\nChoose an appropriate threat level for the monster.")
+    print("1. Below level -1.")
+    print("2. Standard +0.")
+    print("3. Low +1.")
+    print("4. Moderate +2.")
+    print("5. Extreme +3.")
+
+    while True:
+        try: 
+            choice = int(input("Please select monster threat level(1-5) "))
+            if choice == 1:
+                return "Below_level"
+            elif choice == 2:
+                return "Standard"
+            elif choice == 3:
+                return "Low"
+            elif choice == 4:
+                return "Moderate"
+            elif choice == 5:
+                return "Extreme"
+            else:
+                print("Please choose a valid number.")
+        except ValueError:
+            print("Please enter a valid number.")
+
+def get_off_guard(monster):
+    print("\nIs the target off guard?")
+    print("1. Yes.")
+    print("2. No.")
+
+    try:
+        choice = int(input("Please select one of the above(1-2): "))
+        if choice == 1:
+            monster.apply_off_guard()
+        elif choice == 2:
+            return
+        else:  
+            print("Please choose a valid option.")
+    except ValueError:
+        print("Please enter a valid number. ")
+
+def get_status_penalty():
+    print("\nDoes the target have any relevant status penalties?")
+    print("1. Yes.")
+    print("2. No.")
+
+    try: 
+        choice = int(input("Please select one of the above(1-2): "))
+        if choice == 1:
+            value = int(input("\nPlease enter the value of the status penalty: "))
+            return value
+        elif choice == 2:
+            return 
+        else: 
+            print("Please choose a valid option.")
+    except ValueError:
+        print("Please enter a valid number. ")
+    

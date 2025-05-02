@@ -15,6 +15,7 @@ class Character:
         self.damage_die = damage_die
         self.num_die = num_die
         self.actions = 3
+        self.off_guard = False 
 
     def apply_quickened(self):
         self.actions = 4 
@@ -37,8 +38,47 @@ class Character:
         prof_bonus = self.get_proficiency_rank(proficiency)
         return self.item_bonus + prof_bonus + self.ability_mod
 
+    def scale_to_level(self, target_level):
+        self.level = target_level - self.level 
+        self.R_DC += self.level 
+        self.W_DC += self.level 
+        self.F_DC += self.level 
+        self.P_DC += self.level 
+        self.AC += self.level
+
+    def threat_level_scale(self, threat):
+        if threat == "Below_level":
+            self.R_DC -= 1
+            self.W_DC -= 1
+            self.F_DC -= 1
+            self.P_DC -= 1
+            self.AC -= 1
+        elif threat == "Standard":
+            return
+        elif threat == "Low":
+            self.R_DC += 1
+            self.W_DC += 1
+            self.F_DC += 1
+            self.P_DC += 1
+            self.AC += 1
+        elif threat == "Moderate": 
+            self.R_DC += 2
+            self.W_DC += 2
+            self.F_DC += 2
+            self.P_DC += 2
+            self.AC += 2
+        else: 
+            self.R_DC += 3
+            self.W_DC += 3
+            self.F_DC += 3
+            self.P_DC += 3
+            self.AC += 3
+
+        
+    
     def scale_to_level_tank(self, target_level):
-        self.level = target_level
+        self.scale_to_level(target_level)
+        
         if target_level >= 5: 
             self.num_die += 1
             self.F_DC += 2 
@@ -64,3 +104,14 @@ class Character:
             self.P_DC += 2
             self.AC += 2
 
+    def apply_off_guard(self):
+        if not self.off_guard: 
+            self.AC -= 2
+            self.off_guard = True 
+
+    def apply_status_penalty(self, value):
+            self.R_DC -= value
+            self.W_DC -= value
+            self.F_DC -= value
+            self.P_DC -= value
+            self.AC -= value
