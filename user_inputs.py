@@ -226,7 +226,7 @@ def get_status_penalty():
             value = int(input("\nPlease enter the value of the status penalty: "))
             return value
         elif choice == 2:
-            return 
+            return 0
         else: 
             print("Please choose a valid option.")
     except ValueError:

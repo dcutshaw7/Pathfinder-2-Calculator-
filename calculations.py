@@ -48,7 +48,7 @@ def print_results_in_english(results, action_type):
     for idx, outcome in enumerate(results, start=1):
         hit = round(outcome['hit'])
         crit = round(outcome['crit'])
-        print(f"\n{action_type} {idx}: Hit Chance: {hit}%, Crit Chance: {crit}%")
+        print(f"\n{action_type} {idx}: Success Chance: {hit}%, Critical Success Chance: {crit}%")
     
 
 

@@ -9,7 +9,6 @@ def main():
     monster, threat = get_monster_type(level)
     monster.threat_level_scale(threat)
     get_off_guard(monster)
-    stat_value = 0
     stat_value = get_status_penalty()
     monster.apply_status_penalty(stat_value)
     num_attacks = 1 
