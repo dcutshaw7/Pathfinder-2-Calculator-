@@ -114,7 +114,7 @@ def get_monster_type(level):
 def get_maneuver_type():
     print("\nWhat type of maneuver are you attempting?")
     print("1. Strike/Spell Attack (rolls against AC)")
-    print("2. Trip (rolls against Reflex DC)")
+    print("2. Trip/Disarm (rolls against Reflex DC)")
     print("3. Demoralize (rolls against Will DC")
     print("4. Feint (rolls against Perception DC)")
     print("5 Athletic maneuver(rolls against Fortitude DC)")
@@ -232,3 +232,58 @@ def get_status_penalty():
     except ValueError:
         print("Please enter a valid number. ")
     
+def get_damage_dice():
+    print("\n What size damage dice does your character use?")
+    print("1. D4.")
+    print("2. D6.")
+    print("3. D8.")
+    print("4. D10.")
+    print("5. D12.")
+
+    try:
+        choice = int(input("Please select one of the above (1-5): "))
+        if choice == 1:
+            return 2.5
+        elif choice == 2:
+            return 3.5
+        elif choice == 3: 
+            return 4.5 
+        elif choice == 4:
+            return 5.5
+        elif choice == 5:
+            return 6.5 
+        else:
+            print("Please choose a valid option.")
+    except ValueError:
+        print("Please select a valid option.")
+    
+def get_num_damage_die():
+    print("\n How many damage die does your character roll?")
+    
+    try: 
+        value = int(input("Enter number of damage die: "))
+        if value >= 1:
+            return value 
+        else:
+            print("Please enter a valid number.")
+    
+    except ValueError:
+        print("Please enter a valid number.")
+
+def get_static_damage():
+    print("\n Does your character have any static bonuses to damage?")
+    print("1. Yes.")
+    print("2. No.")
+
+    try:
+        choice = int(input("Please choose one of the following(1-2): "))
+        if choice == 1:
+            value = int(input("Enter your static damage bonus: "))
+            return value 
+        elif choice == 2:
+            return 0
+        else:
+            print("Please choose a valid option.")
+    except ValueError:
+        print("Please choose a valid option.")
+        

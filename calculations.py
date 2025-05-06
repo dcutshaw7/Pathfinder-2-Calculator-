@@ -25,7 +25,7 @@ def calculate_success_chance(attack_bonus, monster, defense_type, num_strikes, M
         hit_chance = round(hits/20 * 100)
         crit_chance = round(crits/20 * 100)
         results.append({'hit': hit_chance, 'crit': crit_chance})
-    return results 
+    return results
 
 def get_target_value(monster, defense_type):
     
@@ -50,5 +50,14 @@ def print_results_in_english(results, action_type):
         crit = round(outcome['crit'])
         print(f"\n{action_type} {idx}: Success Chance: {hit}%, Critical Success Chance: {crit}%")
     
+def calculate_damage_per_round(results, avg_dice_dmg, num_dice, static): 
+    total_average = 0
+    for strike in results: 
+        hit = strike['hit'] / 100
+        crit = strike['crit'] / 100
+        total_average += (((avg_dice_dmg * num_dice) + static) * hit) + ((((avg_dice_dmg * num_dice) + static) * 2) * crit)
+    return total_average
 
+def print_average_damage(total_average):
+    print(f"\nYour average damage per round is {total_average} ")
 
