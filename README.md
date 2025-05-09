@@ -1,1 +1,4 @@
-# Pathfinder-2-Calculator-
+# Pathfinder-2-Calculator
+This is a command line script that allows you to calculate your probability of success for numerous action types based on numerous factors(Featuring a small variety of average monsters based on the create a monster table on Archives Of Nethys to test against) and your average damage per round in the table top game Pathfinder 2. 
+
+To run this program on your terminal simply copy the link to the repository, run the bash command "git clone with the URL you copied" (eg git clone https://github.com/dcutshaw7/Pathfinder-2-Calculator-.git). After that command is typed press enter and you should be good to go!  
