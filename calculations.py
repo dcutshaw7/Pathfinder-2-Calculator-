@@ -56,8 +56,88 @@ def calculate_damage_per_round(results, avg_dice_dmg, num_dice, static):
         hit = strike['hit'] / 100
         crit = strike['crit'] / 100
         total_average += (((avg_dice_dmg * num_dice) + static) * hit) + ((((avg_dice_dmg * num_dice) + static) * 2) * crit)
-    return total_average
+    return round(total_average, 1)
+
+def calculate_failure_chance(defense, Spell_DC, monster):
+    reflex, will, fort = monster.return_save_bonus()
+    crit_success = 0
+    success = 0 
+    failure = 0
+    crit_failure = 0 
+    if defense == "reflex": 
+        for i in range(1, 21):
+            if i == 20 or ((i + reflex) >= Spell_DC + 10 and i != 1): 
+                crit_success += 1
+            elif i + reflex >= Spell_DC and i != 1: 
+                success += 1 
+            elif i + reflex < Spell_DC and i != 1:
+                failure += 1 
+            elif i == 1 or i + reflex < (Spell_DC + 10): 
+                crit_failure += 1 
+        crit_succ_chance = (crit_success/20) * 100  
+        succ_chance = (success/20) * 100  
+        fail_chance = (failure/20) * 100  
+        crit_fail_chance = (crit_failure/20) * 100 
+        return crit_succ_chance, succ_chance, fail_chance, crit_fail_chance
+    
+    elif defense == "will": 
+        for i in range(1, 21):
+            if i == 20 or ((i + will) >= Spell_DC + 10 and i != 1): 
+                crit_success += 1
+            elif i + will >= Spell_DC and i != 1: 
+                success += 1 
+            elif i + will < Spell_DC and i != 1:
+                failure += 1 
+            elif i == 1 or i + will < (Spell_DC + 10): 
+                crit_failure += 1 
+        crit_succ_chance = (crit_success/20) * 100  
+        succ_chance = (success/20) * 100  
+        fail_chance = (failure/20) * 100  
+        crit_fail_chance = (crit_failure/20) * 100
+        return crit_succ_chance, succ_chance, fail_chance, crit_fail_chance
+    
+    elif defense == "fort": 
+        for i in range(1, 21):
+            if i == 20 or ((i + fort) >= Spell_DC + 10 and i != 1): 
+                crit_success += 1
+            elif i + fort >= Spell_DC and i != 1: 
+                success += 1 
+            elif i + fort < Spell_DC and i != 1:
+                failure += 1 
+            elif i == 1 or i + fort < (Spell_DC + 10): 
+                crit_failure += 1 
+        crit_succ_chance = (crit_success/20) * 100  
+        succ_chance = (success/20) * 100  
+        fail_chance = (failure/20) * 100  
+        crit_fail_chance = (crit_failure/20) * 100
+        return crit_succ_chance, succ_chance, fail_chance, crit_fail_chance
+
+ 
+def print_spell_result(crit_succ_chance, succ_chance, fail_chance, crit_fail_chance):
+        crit_succ_chance = round(crit_succ_chance)
+        succ_chance = round(succ_chance)
+        fail_chance = round(fail_chance)
+        crit_fail_chance = round(crit_fail_chance)
+        
+        print("\nSpell/effect chance per target:")
+        print(f"\nCritical Success Chance: {crit_succ_chance}%, Success Chance: {succ_chance}%")
+        print(f"\nFailure Chance: {fail_chance}%, Critical Failure Chance: {crit_fail_chance}%")
+        print()
+        
+def calculate_spell_damage(crit_succ, succ, fail, num_targets, avg_dice_dmg, num_dice, static):
+    crit_succ = crit_succ /100
+    succ = succ/100
+    fail = fail/100
+
+    total_average = (((avg_dice_dmg * num_dice) + static) * succ) + (
+        (((avg_dice_dmg * num_dice) + static) * 2) * crit_succ) + ((((avg_dice_dmg * num_dice) + static) /2) * fail)
+    
+    dpr = total_average * num_targets
+    return round(dpr, 1) 
+
+
 
 def print_average_damage(total_average):
     print(f"\nYour average damage per round is {total_average} ")
+    print()
 
